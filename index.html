@@ -603,7 +603,8 @@
 
         // Contact button functionality
         document.addEventListener('click', (e) => {
-            if (e.target.classList.contains('contactBtn')) {
+            if (e.target.classList.contains('contact-btn')) {
+                e.preventDefault();
                 // Replace this URL with your Google Form URL
                 window.location.href = 'https://docs.google.com/forms/d/e/1FAIpQLSePKN9Vo0JBHKYPCS5l1TgCMN-4HP_ByFH_yHR9PifFZ0Keng/viewform?usp=header';
             }
