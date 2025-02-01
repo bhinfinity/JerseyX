@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jersey Store</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="images/jersey-x-icon.png"/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #2a2a2a;
@@ -18,7 +20,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: system-ui, -apple-system, sans-serif;
+            font-family: 'Poppins', system-ui, -apple-system, sans-serif;
         }
 
         body {
@@ -28,7 +30,7 @@
         }
 
         .hero {
-            height: 60vh;
+            height: 50vh;
             background: linear-gradient(45deg, #0d167a, #bb0000);
             display: flex;
             align-items: center;
@@ -61,7 +63,7 @@
 
         .hero h1 {
             font-size: 4rem;
-            margin-bottom: 1rem;
+            margin-bottom: rem;
             background: linear-gradient(45deg, var(--text), var(--accent));
             background-clip: text;
             -webkit-background-clip: text;
@@ -69,9 +71,14 @@
         }
 
         .hero p {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            max-width: 600px;
+            font-size: 1rem;
+            font-weight: 500;
+            line-height: 1.4;
+            background: linear-gradient(45deg, #ffffff, #6366f1);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            max-width: 800px;
             margin: 0 auto;
         }
 
@@ -257,7 +264,7 @@
             }
 
             .hero h1 {
-                font-size: 2.5rem;
+                font-size: 0rem;
             }
         }
 
@@ -309,13 +316,24 @@
         .contact-btn:hover {
             background-color: #5254cc;
         }
+
+        .logo {
+            position: absolute;
+            top: 2px;
+            left: 10px;
+            width: 100px;
+            height: 100px;
+            z-index: 10;
+        }
     </style>
 </head>
 <body>
+    <img src="images/jersey-x-icon.png" alt="Jersey X" class="logo">
+    
     <section class="hero">
         <div class="hero-content">
             <h1>JERSEY X</h1>
-            <p>Find your perfect jersey from our exclusive collection. Premium quality, authentic designs.</p>
+            <p>Upgrade your style at NIT Hamirpur with our premium jerseys! Perfect for hostel life, sports, or just chilling with friends. Authentic designs, unbeatable quality – because you deserve to stand out. Grab yours now and own the campus vibe!</p>
         </div>
     </section>
 
