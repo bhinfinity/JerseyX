@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jersey Store</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2a2a2a;
+            --secondary: #3a3a3a;
+            --accent: #6366f1;
+            --text: #ffffff;
+            --text-secondary: #a0a0a0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--primary);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        .hero {
+            height: 60vh;
+            background: linear-gradient(45deg, #0d167a, #bb0000);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, var(--accent) 0%, transparent 50%);
+            opacity: 0.1;
+            animation: pulse 8s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.1; }
+            50% { transform: scale(1.5); opacity: 0.2; }
+            100% { transform: scale(1); opacity: 0.1; }
+        }
+
+        .hero-content {
+            z-index: 1;
+            padding: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--text), var(--accent));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-container {
+            padding: 2rem;
+            background-color: var(--secondary);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .search-input {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            display: block;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            background-color: var(--primary);
+            color: var(--text);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--accent);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background-color: var(--secondary);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 300px;
+            background-color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.1);
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-info h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .product-price {
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .size-options {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .size-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--text-secondary);
+            border-radius: 4px;
+            background: none;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .size-btn:hover {
+            background-color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .buy-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: var(--accent);
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .buy-btn:hover {
+            background-color: #5254cc;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            position: relative;
+            background-color: var(--secondary);
+            margin: 5% auto;
+            padding: 2rem;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 12px;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: color 0.2s ease;
+        }
+
+        .close-modal:hover {
+            color: var(--text);
+        }
+
+        .modal-product {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .modal-product {
+                flex-direction: column;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        .modal-image {
+            flex: 1;
+            max-width: 400px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .modal-image img {
+            width: 100%;
+            height: auto;
+        }
+
+        .modal-info {
+            flex: 1;
+        }
+
+        .help-section {
+            background-color: var(--secondary);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .help-section h2 {
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .help-section p {
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-btn {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.8rem 2rem;
+            background-color: var(--accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: background-color 0.2s ease;
+        }
+
+        .contact-btn:hover {
+            background-color: #5254cc;
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>JERSEY X</h1>
+            <p>Find your perfect jersey from our exclusive collection. Premium quality, authentic designs.</p>
+        </div>
+    </section>
+
+    <div class="search-container">
+        <input type="text" class="search-input" placeholder="Search jerseys..." id="searchInput">
+    </div>
+
+    <div class="products-grid" id="productsGrid">
+        <!-- Products will be inserted here by JavaScript -->
+    </div>
+
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <div class="modal-product">
+                <!-- Modal content will be inserted here by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <section class="help-section">
+        <h2>Need Help?</h2>
+        <p>Have questions about sizing, delivery, or anything else? We're here to help you find the perfect jersey.</p>
+        <a href="#" class="contact-btn" id="contactBtn">Contact Us</a>
+    </section>
+
+    <script>
+        // Sample product data - replace with your actual jersey data
+        const products = [
+            {
+                id: 1,
+                name: "FC Barcelona Away 2024-25 - Players Version",
+                price: 1499,
+                image: "/images/BARAWY149925.webp",
+                sizes: ["S", "M", "L", "XL"],
+                description: "BARAWY149925"
+            },
+            {
+                id: 2,
+                name: "FC Barcelona Away Kit 2024-25 (Unofficial)",
+                price: 799,
+                image: "/images/BARAWY79925.webp",
+                sizes: ["S", "M", "L", "XL"],
+                description: "BARAWY79925 (SHORTS INCLUDED)"
+            },
+            {
+                id: 3,
+                name: "FC Barcelona Retro Kit Official",
+                price: 999,
+                image: "/images/BARHOM999RE.webp",
+                sizes: ["S", "M", "L", "XL","XXL"],
+                description: "BARHOME999RE (SHORTS INCLUDED)"
+            },
+
+            {id: 4,
+                name: "FC Barcelona X DRAGON BLUE PINK LIMITED EDITION 2024-25 KIT",
+                price: 749,
+                image: "/images/BARCUS799DR.webp",
+                sizes: ["S", "M", "L", ],
+                description: "BARCUS799DR (SHORTS INCLUDED)"
+            },
+
+            {id: 5,
+                name: "JAPAN X KNIFE EDITION 2024-25 PREMIUM QUALITY BLACK PINK",
+                price: 849,
+                image: "/images/JAPBPSWORD.webp",
+                sizes: ["M", "L", "XL","XXL" ],
+                description: "JAPBPSWORD",
+            },
+            {id:6, 
+                name: "REAL MADRID X WHITE DRAGON ROUND NECK STYLE 2024-25",
+                price: 749,
+                image:
+                "/images/RMADRAGONWHITE.webp",
+                sizes: ["S", "M", "L", "XL"],
+                description: "RMADRAGONWHITE (SHORTS INCLUDED)"
+            },
+            {id:7, 
+                name: "ARGENTINA AWAY 1994 OFFICIAL RETRO KIT",
+                price: 849,
+                image:
+                "/images/ARGRETRO.webp",
+                sizes: ["S", "M", "L", "XL"],
+                description: "ARGRETRO (SHORTS INCLUDED)"
+            },
+            {id:8, 
+                name: "GERMANY AWAY AUTHENTIC ORIGINALS 2022 OFFICIAL",
+                price: 549,
+                image:
+                "/images/GERAWAY22.webp",
+                sizes: ["XS", "S", "M", "L", "XL"],
+                description: "GERAWAY22"
+            },
+            {id:9, 
+                name: "BARCELONA HOME 2024-25 OFFICIAL AUTHENTIC ORIGINALS",
+                price: 1049,
+                image:
+                "/images/BARHOM104925.webp",
+                sizes: ["XS", "S", "M", "L", "XL"],
+                description: "BARHOME104925"
+            },
+            {id:10, 
+                name: "REAL MADRID HOME JERSEY 2024-25",
+                price: 1049,
+                image:
+                "/images/RMAHOME25.webp",
+                sizes: ["M", "L", "XL", "XXL"],
+                description: "RMAHOME104925"
+            },
+            {id:11, 
+                name: "LIVERPOOL HOME 2024-25 AUTHENTIC ORIGINALS",
+                price: 899,
+                image:
+                "/images/LIVHOME89925.webp",
+                sizes: ["S","M", "L", "XL","XXL"],
+                description: "LIVHOME89925"
+            },
+            {id:12, 
+                name: "LIVERPOOL AWAY 2024-25 AUTHENTIC ORIGINALS",
+                price: 899,
+                image:
+                "/images/LIVAWAY104925.webp",
+                sizes: ["S","M", "L", "XL","XXL"],
+                description: "LIVAWAY104925"
+            },
+            {id:13, 
+                name: "CHELSEA HOME KIT 2024-25 OFFICIAL KIT",
+                price: 699,
+                image:
+                "/images/CHELHOME69925.webp",
+                sizes: ["S","M", "L", "XL"],
+                description: "CHELHOME69925"
+            },
+            {id:14, 
+                name: "CHELSEA AWAY KIT 2024-25 OFFICIAL KIT",
+                price: 699,
+                image:
+                "/images/CHELAWAY69925.webp",
+                sizes: ["S","M", "L", "XL"],
+                description: "CHELAWAY69925"
+            },
+            {id:15, 
+                name: "Manchester City Home 2024-25 - Stadium Kit",
+                price: 1199,
+                image:
+                "/images/CITYHOME119925.webp",
+                sizes: ["S","M", "L", "XL"],
+                description: "CITYHOME119925"
+            },
+            {id:16, 
+                name: "Manchester City Home 2024-25 - Stadium Kit",
+                price: 899,
+                image:
+                "/images/CITYAWAY89925.webp",
+                sizes: ["S","M", "L", "XL"],
+                description: "CITYAWAY89925"
+            },
+            {id:17, 
+                name: "ARSENAL HOME OFFICIAL 2024-25 KIT",
+                price: 699,
+                image:
+                "/images/ARSHOME69925.webp",
+                sizes: ["S","M", "L", "XL"],
+                description: "ARSHOME69925 (SHORTS INCLUDED)"
+            },
+            {id:18, 
+                name: "ARSENAL AWAY OFFICIAL 2024-25 KIT",
+                price: 699,
+                image:
+                "/images/ARSAWAY69925.webp",
+                sizes: ["S","M", "L", "XL"],
+                description: "ARSAWAY69925 (SHORTS INCLUDED)"
+            },
+            {id:18, 
+                name: "MANCHESTER UNITED AWAY KIT 2024-25",
+                price: 699,
+                image:
+                "/images/UTDAWAY69925.webp",
+                sizes: ["S","M", "L", "XL"],
+                description: "UTDAWAY69925 (SHORTS INCLUDED)"
+            },
+            {id:19, 
+                name: "MANCHESTER UNITED AWAY KIT 2024-25",
+                price: 749,
+                image:
+                "/images/UTDSPECIAL25.webp",
+                sizes: ["S","M", "L", "XL"],
+                description: "UTDSPECIAL25 (SHORTS INCLUDED)"
+            },
+            {id:20, 
+                name: "BAYERN HOME 2024-25 OFFICIAL KIT",
+                price: 799,
+                image:
+                "/images/BAYMUHOME79925.webp",
+                sizes: ["S","M", "L", "XL"],
+                description: "BAYMUHOME79925 (SHORTS INCLUDED)"
+            }
+            // Add more products as needed
+        ];
+
+        // Initialize products
+        function renderProducts(productsToRender) {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = '';
+            
+            productsToRender.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}">
+                    </div>
+                    <div class="product-info">
+                        <h3>${product.name}</h3>
+                        <div class="product-price">₹${product.price}</div>
+                        <div class="size-options">
+                            ${product.sizes.map(size => 
+                                `<button class="size-btn">${size}</button>`
+                            ).join('')}
+                        </div>
+                        <button class="buy-btn" data-id="${product.id}">Buy Now</button>
+                    </div>
+                `;
+                
+                card.addEventListener('click', () => openModal(product));
+                grid.appendChild(card);
+            });
+        }
+
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredProducts = products.filter(product => 
+                product.name.toLowerCase().includes(searchTerm)
+            );
+            renderProducts(filteredProducts);
+        });
+
+        // Modal functionality
+        const modal = document.getElementById('productModal');
+        const closeModal = document.getElementById('closeModal');
+
+        function openModal(product) {
+            const modalProduct = document.querySelector('.modal-product');
+            modalProduct.innerHTML = `
+                <div class="modal-image">
+                    <img src="${product.image}" alt="${product.name}">
+                </div>
+                <div class="modal-info">
+                    <h2>${product.name}</h2>
+                    <div class="product-price">₹${product.price}</div>
+                    <p>${product.description}</p>
+                    <div class="size-options">
+                        ${product.sizes.map(size => 
+                            `<button class="size-btn">${size}</button>`
+                        ).join('')}
+                    </div>
+                    <button class="buy-btn" data-id="${product.id}">Buy Now</button>
+                </div>
+            `;
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        closeModal.addEventListener('click', () => {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Buy button functionality
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('buy-btn')) {
+                // Replace this URL with your Google Form URL
+                window.location.href = 'YOUR_GOOGLE_FORM_URL';
+            }
+        });
+
+        // Contact button functionality
+        document.getElementById('contactBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            // Replace this URL with your contact form or contact details
+            alert('Contact us at: your@email.com');
+        });
+
+        // Initialize the page
+        renderProducts(products);
+    </script>
+</body>
+</html>
