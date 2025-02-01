@@ -602,10 +602,11 @@
         });
 
         // Contact button functionality
-        document.getElementById('contactBtn').addEventListener('click', (e) => {
-            e.preventDefault();
-            // Replace this URL with your contact form or contact details
-            alert('Contact us at: your@email.com');
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('contactBtn')) {
+                // Replace this URL with your Google Form URL
+                window.location.href = 'https://docs.google.com/forms/d/e/1FAIpQLSePKN9Vo0JBHKYPCS5l1TgCMN-4HP_ByFH_yHR9PifFZ0Keng/viewform?usp=header';
+            }
         });
 
         // Initialize the page
