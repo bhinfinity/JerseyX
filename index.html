@@ -1,36 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jersey X</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
 </head>
+
 <body class="bg-gray-900 text-white font-manrope">
     <!-- Navigation -->
     <nav class="fixed w-full z-50 bg-gray-900/90 backdrop-blur-md border-b border-gray-800">
         <div class="container mx-auto px-4 py-3">
             <div class="flex justify-between items-center">
+                <!-- Logo and Brand Name -->
                 <div class="flex items-center space-x-4">
                     <img src="images/logo.png" alt="Logo" class="h-12 hover-glow cursor-pointer">
-                    <span class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-blue-500 font-playfair">
+                    <span
+                        class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-blue-500 font-playfair">
                         Jersey X
                     </span>
                 </div>
-                <div class="flex items-center space-x-6">
-                    <input 
-                        type="text" 
-                        id="search" 
-                        placeholder="Search jerseys..." 
-                        class="px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:border-blue-500 transition-colors"
-                    >
-                    <select 
-                        id="sort" 
-                        class="px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:border-blue-500 transition-colors"
-                    >
+
+                <!-- Mobile Menu Button -->
+                <button id="menu-toggle" class="block md:hidden focus:outline-none">
+                    <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                </button>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-6">
+                    <input type="text" id="search" placeholder="Search jerseys..."
+                        class="px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:border-blue-500 transition-colors">
+                    <select id="sort"
+                        class="px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:border-blue-500 transition-colors">
                         <option value="default">Sort by</option>
                         <option value="price-asc">Price: Low to High</option>
                         <option value="price-desc">Price: High to Low</option>
@@ -38,8 +49,32 @@
                     </select>
                 </div>
             </div>
+
+            <!-- Mobile Navigation -->
+            <div id="mobile-menu" class="hidden md:hidden flex-col mt-4 space-y-4">
+                <input type="text" id="mobile-search" placeholder="Search jerseys..."
+                    class="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:border-blue-500 transition-colors">
+                <select id="mobile-sort"
+                    class="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:border-blue-500 transition-colors">
+                    <option value="default">Sort by</option>
+                    <option value="price-asc">Price: Low to High</option>
+                    <option value="price-desc">Price: High to Low</option>
+                    <option value="name">Name</option>
+                </select>
+            </div>
         </div>
     </nav>
+
+    <script>
+        // Toggle mobile menu visibility
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+
 
     <!-- Hero Section -->
     <section class="hero-gradient relative overflow-hidden pt-24">
@@ -47,24 +82,28 @@
             <div class="flex flex-col md:flex-row items-center justify-between">
                 <div class="md:w-1/2 space-y-6" data-aos="fade-right">
                     <h1 class="text-5xl font-bold leading-tight font-playfair">
-                        Premium Quality Jerseys for True Fans
+                        Premium Quality Jerseys for 
+                        <div id="type-animation" class="text-yellow-500">True Fans</div>
                     </h1>
+
                     <p class="text-xl text-gray-200">
-                        Upgrade your style at NIT Hamirpur with premium jerseys – perfect for hostel life, sports, or chilling with friends. Authentic designs, unbeatable quality. Stand out, grab yours now!
+                        Upgrade your style at NIT Hamirpur with premium jerseys – perfect for hostel life, sports, or
+                        chilling with friends. Authentic designs, unbeatable quality. Stand out, grab yours now!
                     </p>
-                    <button 
-                        onclick="window.location.href='https://docs.google.com/forms/d/e/1FAIpQLSc_qRyVk2NmK91u5XkiC42hbej9bWJZhAfSCC87X-5yzzfTRg/viewform'"
-                        class="bg-white text-blue-600 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors"
-                    >
+                    <button
+                        onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSc_qRyVk2NmK91u5XkiC42hbej9bWJZhAfSCC87X-5yzzfTRg/viewform', '_blank')"
+                        class="bg-white text-indigo-600 px-8 py-3 rounded-full font-semibold shadow-lg hover:bg-indigo-50 hover:shadow-xl transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                         Shop Now
                     </button>
+
+
                 </div>
-                <div class="md:w-1/2 mt-8 md:mt-0" data-aos="fade-left">
-                    <img src="images/pngwing.com2.png" alt="Featured Jersey" class="rounded-lg shadow-2xl hover-glow cursor-pointer" style="border: none; width: 90%;">
+                <div class="relative md:w-1/2 mt-8 md:mt-0" data-aos="fade-left">
+                    <img src="images/pngwing.com2.png" alt="Featured Jersey"
+                        class="rounded-lg hover-glow cursor-pointer" style="border: none; width: 90%;">
                 </div>
             </div>
         </div>
-        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-gray-900"></div>
     </section>
 
     <!-- Main Content -->
@@ -80,10 +119,7 @@
         <div class="absolute inset-0 bg-black bg-opacity-75 backdrop-blur-sm"></div>
         <div class="container mx-auto px-4 h-full flex items-center justify-center">
             <div class="bg-gray-900 rounded-xl max-w-4xl w-full p-6 relative">
-                <button 
-                    onclick="closeModal()" 
-                    class="absolute top-4 right-4 text-gray-400 hover:text-white"
-                >
+                <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
                     ✕
                 </button>
                 <div id="modalContent"></div>
@@ -95,19 +131,43 @@
     <footer class="bg-gray-800 py-6 mt-16">
         <div class="container mx-auto px-4 text-center">
             <p class="text-gray-400">© 2025 Jersey X. All rights reserved.</p>
-            <button 
+            <button
                 onclick="window.location.href='https://docs.google.com/forms/d/e/1FAIpQLSePKN9Vo0JBHKYPCS5l1TgCMN-4HP_ByFH_yHR9PifFZ0Keng/viewform?usp=header'"
-                class="mt-4 px-6 py-2 bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
-            >
+                class="mt-4 px-6 py-2 bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">
                 Help
             </button>
         </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+
     <script>
         AOS.init();
+
     </script>
     <script src="script.js"></script>
+
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    <script>
+        var typed = new Typed('#type-animation', {
+            strings: [
+                'Champions',
+                'Every Match',
+                'True Style',
+                'Your Passion',
+                'Love of the Game',
+                'Peak Performance',
+                'Loyal Fans',
+            ],
+            typeSpeed: 150, // Typing speed in milliseconds
+            backSpeed: 150, // Backspacing speed
+            backDelay: 800, // Delay before starting to backspace
+            loop: true, // Enable infinite looping
+            startDelay: 1500, // Delay before typing starts
+            smartBackspace: true, // Only backspace when the next string differs
+            showCursor: false,
+        });
+    </script>
 </body>
+
 </html>
