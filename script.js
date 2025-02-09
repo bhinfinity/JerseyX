@@ -241,19 +241,6 @@ const products = [
         description: "RMAHOME25CUSTOM (SHORTS INCLUDED)",
         formLink: "https://docs.google.com/forms/d/e/1FAIpQLSdFBfkrhDKeOAZXOC6xtgk6KLFffMha1eBwabq6gp1QLhldtw/viewform?usp=header",
 
-    },
-    {
-        id: 25,
-        name: "REAL MADRID HOME 2024-25 CUSTOM KIT",
-        price: 1199,
-        images:
-            ["/images/RMAHOME25CUSTOM.webp",
-                "/images/RMAHOME25CUSTOM_2.webp"
-            ],
-        sizes: ["S", "M","L","XL"],
-        description: "RMAHOME25CUSTOM (SHORTS INCLUDED)",
-        formLink: "https://docs.google.com/forms/d/e/1FAIpQLSdFBfkrhDKeOAZXOC6xtgk6KLFffMha1eBwabq6gp1QLhldtw/viewform?usp=header",
-
     }
     // Add the rest of your products here with the same structure
 ];
@@ -325,7 +312,7 @@ function openModal(productId) {
                     ${sizesHtml}
                 </div>
                 <button 
-                    onclick="window.location.href='${product.formLink}'"
+                    onclick="window.open('${product.formLink}', '_blank')"
                     class="px-6 py-2 bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
                 >
                     Buy Now
