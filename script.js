@@ -204,6 +204,56 @@ const products = [
         sizes: ["S", "M", "L", "XL"],
         description: "BAYMUHOME79925 (SHORTS INCLUDED)",
         formLink: "https://docs.google.com/forms/d/e/1FAIpQLSc_qRyVk2NmK91u5XkiC42hbej9bWJZhAfSCC87X-5yzzfTRg/viewform?usp=header",
+    },
+    {
+        id: 22,
+        name: "GERMANY HOME OFFICIAL 2024-25 OFFICIAL KIT",
+        price: 799,
+        images:
+            ["/images/GERHOME25KIT.webp"],
+        sizes: ["S", "M"],
+        description: "GERHOME25KIT (SHORTS INCLUDED)",
+        formLink: "https://docs.google.com/forms/d/e/1FAIpQLSc_qRyVk2NmK91u5XkiC42hbej9bWJZhAfSCC87X-5yzzfTRg/viewform?usp=header",
+
+    },
+    {
+        id: 23,
+        name: "BARCELONA HOME 2024-25 CUSTOM KIT",
+        price: 1199,
+        images:
+            ["/images/BARHOME25CUSTOM.webp",
+                "/images/BARHOME25CUSTOM_2.webp"
+            ],
+        sizes: ["S", "M","L","XL"],
+        description: "BARHOME25CUSTOM (SHORTS INCLUDED)",
+        formLink: "https://docs.google.com/forms/d/e/1FAIpQLSdFBfkrhDKeOAZXOC6xtgk6KLFffMha1eBwabq6gp1QLhldtw/viewform?usp=header",
+
+    },
+    {
+        id: 24,
+        name: "REAL MADRID HOME 2024-25 CUSTOM KIT",
+        price: 1199,
+        images:
+            ["/images/RMAHOME25CUSTOM.webp",
+                "/images/RMAHOME25CUSTOM_2.webp"
+            ],
+        sizes: ["S", "M","L","XL"],
+        description: "RMAHOME25CUSTOM (SHORTS INCLUDED)",
+        formLink: "https://docs.google.com/forms/d/e/1FAIpQLSdFBfkrhDKeOAZXOC6xtgk6KLFffMha1eBwabq6gp1QLhldtw/viewform?usp=header",
+
+    },
+    {
+        id: 25,
+        name: "REAL MADRID HOME 2024-25 CUSTOM KIT",
+        price: 1199,
+        images:
+            ["/images/RMAHOME25CUSTOM.webp",
+                "/images/RMAHOME25CUSTOM_2.webp"
+            ],
+        sizes: ["S", "M","L","XL"],
+        description: "RMAHOME25CUSTOM (SHORTS INCLUDED)",
+        formLink: "https://docs.google.com/forms/d/e/1FAIpQLSdFBfkrhDKeOAZXOC6xtgk6KLFffMha1eBwabq6gp1QLhldtw/viewform?usp=header",
+
     }
     // Add the rest of your products here with the same structure
 ];
@@ -302,34 +352,44 @@ function selectImage(index) {
 }
 
 // Search functionality
-document.getElementById('search').addEventListener('input', (e) => {
-    const searchTerm = e.target.value.toLowerCase();
-    const filtered = products.filter(product => 
-        product.name.toLowerCase().includes(searchTerm) || 
-        product.description.toLowerCase().includes(searchTerm)
-    );
-    displayProducts(filtered);
-});
+function setupSearch() {
+    const searchInputs = document.querySelectorAll('#search, #mobile-search');
+    searchInputs.forEach(input => {
+        input.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filtered = products.filter(product => 
+                product.name.toLowerCase().includes(searchTerm) || 
+                product.description.toLowerCase().includes(searchTerm)
+            );
+            displayProducts(filtered);
+        });
+    });
+}
 
 // Sort functionality
-document.getElementById('sort').addEventListener('change', (e) => {
-    const sortValue = e.target.value;
-    const sorted = [...products];
-    
-    switch(sortValue) {
-        case 'price-asc':
-            sorted.sort((a, b) => a.price - b.price);
-            break;
-        case 'price-desc':
-            sorted.sort((a, b) => b.price - a.price);
-            break;
-        case 'name':
-            sorted.sort((a, b) => a.name.localeCompare(b.name));
-            break;
-    }
-    
-    displayProducts(sorted);
-});
+function setupSort() {
+    const sortSelects = document.querySelectorAll('#sort, #mobile-sort');
+    sortSelects.forEach(select => {
+        select.addEventListener('change', (e) => {
+            const sortValue = e.target.value;
+            const sorted = [...products];
+            
+            switch(sortValue) {
+                case 'price-asc':
+                    sorted.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-desc':
+                    sorted.sort((a, b) => b.price - a.price);
+                    break;
+                case 'name':
+                    sorted.sort((a, b) => a.name.localeCompare(b.name));
+                    break;
+            }
+            
+            displayProducts(sorted);
+        });
+    });
+}
 
 // Attach Click Event to Product Cards
 document.addEventListener('DOMContentLoaded', () => {
@@ -345,4 +405,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Display products on page load
     displayProducts(products);
+
+    // Setup search and sort functionality
+    setupSearch();
+    setupSort();
 });

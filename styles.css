@@ -86,10 +86,19 @@ nav img {
     transform: translateY(-3px);
     box-shadow: 0 6px 20px rgba(14, 165, 233, 0.6);
 }
+
+.hero-gradient .shop-now-button {
+    margin-top: 1rem; /* Add margin to the top of the button */
+}
+
+.hero-gradient p {
+    margin-bottom: 1rem; /* Add margin to the bottom of the paragraph */
+}
+
 #type-animation {
     display: inline-block; /* Ensures the animation doesn't affect surrounding text */
-    min-width: 200px; /* Reserve enough width to fit the longest string */
-    min-height: 1em; /* Keeps height fixed during animation */
+    min-width: 20px; /* Reserve enough width to fit the longest string */
+    min-height: 0.4em; /* Keeps height fixed during animation */
     line-height: 1; /* Prevents additional vertical spacing */
     overflow: hidden; /* Ensures text won't overflow */
 }
@@ -216,4 +225,24 @@ footer {
 #modalContent button:hover {
     transform: translateY(-3px);
     box-shadow: 0 6px 20px rgba(14, 165, 233, 0.6);
+}
+
+/* Add this CSS to your styles.css or within a <style> tag */
+.rainbow-gradient {
+    background: linear-gradient(100deg, red, orange, yellow, green, blue, indigo, violet);
+    background-size: 200% 200%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rainbow 6s linear infinite;
+    display: inline-block;
+    padding: 0.2em 0; /* Adjust padding to ensure text is not cropped */
+    line-height: 1.2; /* Adjust line height to ensure text is not cropped */
+    vertical-align: middle; /* Aligns the text vertically with surrounding text */
+}
+
+@keyframes rainbow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
