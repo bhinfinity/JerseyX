@@ -86,6 +86,13 @@ nav img {
     transform: translateY(-3px);
     box-shadow: 0 6px 20px rgba(14, 165, 233, 0.6);
 }
+#type-animation {
+    display: inline-block; /* Ensures the animation doesn't affect surrounding text */
+    min-width: 200px; /* Reserve enough width to fit the longest string */
+    min-height: 1em; /* Keeps height fixed during animation */
+    line-height: 1; /* Prevents additional vertical spacing */
+    overflow: hidden; /* Ensures text won't overflow */
+}
 
 /* Background Design for the Rest of the Page */
 body::after {
